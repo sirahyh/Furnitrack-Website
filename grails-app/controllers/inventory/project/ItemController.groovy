@@ -1,5 +1,7 @@
 package inventory.project
 
+import grails.transaction.Transactional
+
 class ItemController {
 
     def itemService
@@ -12,11 +14,23 @@ class ItemController {
         model: [items: items]
     }
 
+    // add multiple items
+    def addItems() {
+        render(view: "addItemForm")
+    }
+
+    def saveItems() {
+        def params = params
+        itemService.saveItemsWithTransactions(params)
+
+        redirect action: "index"
+    }
+
     def save() {
         def categoryName = params.categoryName
         def itemName = params.itemName
         def description = params.itemDescription
-        def quantity = params.itemQuantity ? params.itemQuantity.toInteger() : 0
+        def quantity = params.itemQuantity
 
         def result = itemService.addNewItem(categoryName, itemName, description, quantity)
         flash.message = result

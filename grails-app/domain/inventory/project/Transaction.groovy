@@ -4,7 +4,7 @@ class Transaction {
 
     String transactionType
     int quantity
-    Date transactionDate = new Date()
+    Date transactionDate
 
     static belongsTo = Item
     static hasMany = [item: Item]
