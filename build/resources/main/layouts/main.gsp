@@ -17,7 +17,7 @@
 %{--<div id="throbber" style="display:none; min-height:120px;"></div>--}%
 %{--<div id="noty-holder"></div>--}%
 <div id="wrapper">
-    <g:render template="/layouts/sidebar"/>
+%{--    <g:render template="/layouts/sidebar"/>--}%
     <g:layoutBody/>
 
 

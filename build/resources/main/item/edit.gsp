@@ -6,7 +6,7 @@
         <title><g:message code="default.edit.label" args="[entityName]" /></title>
     </head>
     <body>
-    <h1>Edit Item</h1>
+    <h1 class="form-title">Edit Item</h1>
     <g:form controller="item" action="update" params="[id: items.id]">
         <div class="row">
             <div class="col-lg-6">

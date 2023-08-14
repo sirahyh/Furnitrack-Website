@@ -11,7 +11,7 @@ class ItemController {
 
     def index() {
         def items = itemService.getAllItems()
-        model: [items: items]
+        [items: items]
     }
 
     // add multiple items
@@ -40,7 +40,7 @@ class ItemController {
 
     def edit(Long id) {
         def item = Item.get(id)
-        model: [items: item]
+        [items: item]
     }
 
     def update(Long id) {
@@ -64,6 +64,11 @@ class ItemController {
         flash.message = result
 
         redirect(action: "index")
+    }
+
+    def inout(Long id) {
+        def item = Item.get(id)
+        [items: item]
     }
 
 }

@@ -63,6 +63,7 @@ class ItemService {
             category.addToItems(item)
         }
     }
+
     // add data item
     def addNewItem(String categoryName, String itemName, String desc, int qty){
         def category = Category.findOrCreateWhere(categoryName: categoryName)
