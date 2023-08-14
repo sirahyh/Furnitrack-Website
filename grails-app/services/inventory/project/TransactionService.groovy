@@ -11,17 +11,15 @@ class TransactionService {
     }
 
     // add transaction
-    def addTransaction( String itemName, String transactionType, int qty) {
-        def item = Item.findOrCreateWhere(itemName: itemName)
-        item.save()
+    def addTransaction(String transactionType, int qty) {
 
-        def transaction = new Transaction(transactionType: transactionType, quantity: qty, transactionDate: new Date())
-        transaction.item = item
+            def transaction = new Transaction(transactionType: transactionType, quantity: qty, transactionDate: new Date())
 
-        if (transaction.save()) {
-            return "Barang berhasil disimpan"
-        } else {
-            return "Gagal menyimpan barang"
-        }
+            if (transaction.save()) {
+                return "Barang berhasil disimpan"
+            } else {
+                return "Gagal menyimpan barang"
+            }
+
     }
 }

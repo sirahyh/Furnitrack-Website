@@ -10,7 +10,6 @@ class Transaction {
     static hasMany = [item: Item]
 
     static constraints = {
-        transactionType inList: ['masuk', 'keluar']
         quantity min: 0
     }
 }

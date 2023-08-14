@@ -24,8 +24,13 @@
                         <p class="item-name-of-transaction">${items.itemName}</p>
                         <p class="description-of-transaction">${items.description}</p>
                         <label for="transactionType">Category</label>
-                        <g:select class="form-control" name="transactionType" from="${['In', 'Out']}" required="true"/><br>
+                        <g:select class="form-control" name="transactionType" from="${['Masuk', 'Keluar']}" required="true"/><br>
 
+%{--                        <input type="hidden" name="itemName" value="${items.itemName}">--}%
+%{--                        <div class="form-group">--}%
+%{--                            <label for="transactionType">Transaction Type</label>--}%
+%{--                            <input type="text" class="form-control" id="transactionType" name="transactionType">--}%
+%{--                        </div>--}%
                         <div class="form-group">
                             <label for="itemQuantity">Quantity</label>
                             <input type="number" class="form-control" id="itemQuantity" name="itemQuantity" min="1" >
