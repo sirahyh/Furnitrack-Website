@@ -7,12 +7,13 @@
 //
 //= require jquery-2.2.0.min
 //= require jquery.min.js
+//= require bootstrap
 //= require sidebar
 //= require scripts
 //= require sweetalert.init
 //= require sweetalert.min
 //= require jquery.min
-//= require bootstrap
+//= require_tree .
 //= require_self
 
 if (typeof jQuery !== 'undefined') {

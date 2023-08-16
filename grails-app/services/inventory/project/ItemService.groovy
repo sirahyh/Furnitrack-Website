@@ -2,69 +2,40 @@ package inventory.project
 
 class ItemService {
 
-
-    // ADD MULTIPLE ITEMS
-//        def saveItemsWithTransactions(params) {
-//        def categories = params.category
-//        def itemNames = params.itemName
-//        def descriptions = params.description
-//        def quantities = params.quantity
-//        def transactionType = "in"
-//
-//        for (int i = 0; i < itemNames.size(); i++) {
-//            def category = Category.findOrCreateByName(categories[i])
-//            def item = new Item(
-//                    itemName: itemNames[i],
-//                    description: descriptions[i],
-//                    quantity: quantities[i],
-//                    category: category
-//            )
-//            item.save()
-//
-//            def transaction = new Transaction(
-//                    transactionType: transactionType,
-//                    quantity: quantities[i],
-//                    transactionDate: new Date(),
-//                    item: item
-//            )
-//            transaction.save()
-//        }
-//    }
-//
-
     // MULTIPLE ITEM
-    def saveItemsWithTransactions(params) {
-        def categoryNames = params.list('categoryName')
-        def itemNames = params.list('itemName')
-        def descriptions = params.list('description')
-        def quantities = params.list('quantity')
-        def transactionType = "in"
+    def saveItemsFromFormData(List formData) {
+        println "isi form data: ${formData}"
+        formData.each { itemData ->
 
-        for (int i = 0; i < itemNames.size(); i++) {
-            def categoryName = categoryNames[i]
-            def itemName = itemNames[i]
-            def description = descriptions[i]
-            def quantity = quantities[i]
-
-            def category = Category.findOrCreateWhere(name: categoryName)
+            def categoryName = itemData.category
+            def category = Category.findOrCreateWhere(categoryName: categoryName)
+            category.save()
             def item = new Item(
-                    name: itemName,
-                    description: description,
-                    quantity: quantity
-            ).save()
+                    category: itemData.category,
+                    itemName: itemData.name,
+                    description: itemData.description,
+                    quantity: itemData.quantity.toInteger()
+            )
+            item.category = category
+            item.save(flush: true)
 
-            def transaction = new Transaction(
-                    transactionType: transactionType,
-                    quantity: quantity,
-                    transactionDate: new Date(),
-                    item: item
-            ).save()
-
-            category.addToItems(item)
+//            def category = Category.findByCategoryName(itemData.category)
+//            def category = Category.findOrCreateWhere(itemData.category)
+//            if (category) {
+//                def item = new Item(
+//                        category: category,
+//                        itemName: itemData.name,
+//                        description: itemData.description,
+//                        quantity: itemData.quantity.toInteger()
+//                )
+//                item.save(flush: true)
+//            } else {
+//                println "Category not found for ${itemData.category}"
+//            }
         }
     }
 
-    // add data item
+    // ADD ONE DATA ITEM
     def addNewItem(String categoryName, String itemName, String desc, int qty){
         def category = Category.findOrCreateWhere(categoryName: categoryName)
         category.save()
@@ -73,7 +44,18 @@ class ItemService {
         item.category = category
 
         if (item.save()) {
-            return "Barang berhasil disimpan"
+            def transaction = new Transaction(
+                    transactionType: 'masuk',
+                    quantity: qty,
+                    transactionDate: new Date(),
+                    item: item
+            )
+
+            if (transaction.save()) {
+                return "Barang berhasil disimpan"
+            } else {
+                return "Gagal menyimpan transaksi"
+            }
         } else {
             return "Gagal menyimpan barang"
         }
@@ -85,12 +67,11 @@ class ItemService {
     }
 
     // edit data item
-    def editItem(Long id, String itemName, String description, int quantity) {
+    def editItem(Long id, String itemName, String description) {
         def item = Item.get(id)
         if (item) {
             item.itemName = itemName
             item.description = description
-            item.quantity = quantity
             item.save()
             return "Barang berhasil diupdate."
         } else {
@@ -101,6 +82,7 @@ class ItemService {
     // delete data item
     def deleteItem(Long id) {
         def item = Item.get(id)
+
         if (item) {
             item.delete()
             return "Barang berhasil dihapus."
@@ -109,4 +91,6 @@ class ItemService {
         }
     }
 
+
 }
+

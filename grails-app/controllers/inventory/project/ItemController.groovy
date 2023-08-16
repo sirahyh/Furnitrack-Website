@@ -5,34 +5,50 @@ import grails.transaction.Transactional
 class ItemController {
 
     def itemService
+    def transactionService
 
     def create() {
     }
 
+    def insert(){
+
+    }
+
     def index() {
         def items = itemService.getAllItems()
-        [items: items]
+        model: [items: items]
     }
 
     // add multiple items
+//    def addItems() {
+//        render(view: "addItemForm")
+//    }
+
+//    def saveItems() {
+//        def params = params
+//        itemService.saveItemsWithTransactions(params)
+//
+//        redirect action: "index"
+//    }
+
     def addItems() {
-        render(view: "addItemForm")
+        render(view: "create")
     }
 
     def saveItems() {
-        def params = params
-        itemService.saveItemsWithTransactions(params)
+        def formData = request.JSON
 
-        redirect action: "index"
+        itemService.saveItemsFromFormData(formData)
+        redirect action: 'index'
     }
 
-    def save() {
+    def saveOneItem() {
         def categoryName = params.categoryName
         def itemName = params.itemName
         def description = params.itemDescription
         def quantity = params.itemQuantity
 
-        def result = itemService.addNewItem(categoryName, itemName, description, quantity)
+        def result = itemService.addNewItem(categoryName, itemName, description, quantity as int)
         flash.message = result
 
         redirect(action: "index")
@@ -40,15 +56,15 @@ class ItemController {
 
     def edit(Long id) {
         def item = Item.get(id)
-        [items: item]
+        model: [items: item]
     }
 
-    def update(Long id) {
+    def update() {
+        def itemId = params.id
         def itemName = params.itemName
         def description = params.itemDescription
-        def quantity = params.itemQuantity as int
 
-        def result = itemService.editItem(id, itemName, description, quantity)
+        def result = itemService.editItem(itemId as Long, itemName, description)
         flash.message = result
 
         redirect(action: "index")
@@ -66,9 +82,21 @@ class ItemController {
         redirect(action: "index")
     }
 
-    def inout(Long id) {
-        def item = Item.get(id)
-        [items: item]
+//     Input Transaction
+    def inputTransaction() {
+        def itemName = params.itemName
+        def transactionType = params.categoryName
+        def quantity = params.itemQuantity.toInteger()
+
+        def result = transactionService.createTransaction(itemName, transactionType, quantity)
+
+        if (result) {
+            flash.message = "Transaksi berhasil disimpan."
+        } else {
+            flash.message = "Gagal menyimpan transaksi."
+        }
+
+        redirect(action: 'index')
     }
 
 }

@@ -6,8 +6,7 @@ class Transaction {
     int quantity
     Date transactionDate
 
-    static belongsTo = Item
-    static hasMany = [item: Item]
+    static belongsTo = [item: Item]
 
     static constraints = {
         quantity min: 0

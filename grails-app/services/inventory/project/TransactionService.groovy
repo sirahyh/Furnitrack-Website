@@ -10,16 +10,43 @@ class TransactionService {
         return Transaction.list()
     }
 
-    // add transaction
-    def addTransaction(String transactionType, int qty) {
+    // ADD TRANSACTION
+    def addTransactionOfItem(Long idItem, String transactionType, int transactionQuantity) {
 
-            def transaction = new Transaction(transactionType: transactionType, quantity: qty, transactionDate: new Date())
+        def item = Item.get(idItem)
 
-            if (transaction.save()) {
-                return "Barang berhasil disimpan"
-            } else {
-                return "Gagal menyimpan barang"
+        if (item) {
+            def transaction = new Transaction(item: idItem, transactionType: transactionType, quantity: transactionQuantity, transactionDate: new Date())
+
+            transaction.save()
+
+            if (transactionType == "IN") {
+                println "transaksi termasuk masuk"
+                item.quantity += transactionQuantity
+                item.save()
+            } else if (transactionType == "OUT") {
+                if (item.quantity >= transactionQuantity) {
+                   item.quantity -= transactionQuantity
+                    item.save()
+                } else {
+                    println("Barang keluar harus lebih kecil dari barang yang tersedia")
+                    return "Barang keluar harus lebih kecil dari barang yang tersedia"
+                }
             }
+        }
+    }
 
+    // GET DATA FROM TABLE JOIN ITEM AND TRANSACTION
+    def getTransactionsWithItemNames() {
+        Transaction.createCriteria().list {
+            createAlias('item', 'i')
+            projections {
+                property('i.itemName')
+                property('transactionType')
+                property('quantity')
+                property('transactionDate')
+            }
+            order('transactionDate', 'desc')
+        }
     }
 }

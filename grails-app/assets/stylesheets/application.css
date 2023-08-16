@@ -12,7 +12,9 @@
 *= require style
 *= require main
 *= require mobile
+*= require sidebar
 *= require index
 *= require sweetalert
+*= require_tree .
 *= require_self
 */

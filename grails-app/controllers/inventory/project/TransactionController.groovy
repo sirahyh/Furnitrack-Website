@@ -5,17 +5,20 @@ class TransactionController {
     def transactionService
 
     def index() {
-        def transaction = transactionService.getAllTransaction()
-        [transactions : transaction]
+        def transactions = transactionService.getTransactionsWithItemNames()
+        [transactions: transactions]
     }
 
-    def addTransactionData(){
-        def transactionType = params.transactionType
-        def quantity = params.itemQuantity
 
-        def result = transactionService.addTransaction(transactionType as String, quantity as int)
+    def addTransaction() {
+        def itemId = params.inputItemId
+        def transactionType = params.transactionType
+        def transactionQuantity = params.transactionQuantity
+
+        def result = transactionService.addTransactionOfItem(itemId as Long, transactionType, transactionQuantity as int)
         flash.message = result
 
         redirect(action: "index")
     }
+
 }

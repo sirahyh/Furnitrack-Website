@@ -7,7 +7,7 @@ class Item {
     int quantity
 
     static belongsTo = [category: Category]
-    static hasMany = [transactions: Transaction]
+    static hasMany = [transaction: Transaction]
 
     static constraints = {
         itemName blank: false
