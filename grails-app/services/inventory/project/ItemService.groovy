@@ -45,7 +45,7 @@ class ItemService {
 
         if (item.save()) {
             def transaction = new Transaction(
-                    transactionType: 'masuk',
+                    transactionType: 'IN',
                     quantity: qty,
                     transactionDate: new Date(),
                     item: item
@@ -91,6 +91,18 @@ class ItemService {
         }
     }
 
+    // Find data by Category
+    def searchData(String keyword){
+        def category = Category.findByCategoryName(keyword)
 
+        def itemsInfo
+        if (category) {
+            itemsInfo = category.items.collect { [itemName: it.itemName, description: it.description, quantity: it.quantity] }
+            println "isi itemsInfo: ${itemsInfo}"
+        } else {
+            println("Category not found")
+        }
+        return itemsInfo
+    }
 }
 

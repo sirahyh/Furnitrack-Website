@@ -5,23 +5,40 @@
     <title>Create New Item</title>
 </head>
 <body>
-<h1>Create New Item</h1>
 
-<div class="container-create">
-    <div class="wrap">
-        <h2>Add Dynamic Input Field</h2>
-        <a href="#" class="add">&plus;</a>
-    </div>
-    <form>
-        <div class="inp-group">
+<div class="create-page">
+    <h1 >Create New Item</h1>
+    <div class="container-create">
 
+        <div class="wrap">
+            <h2>Add Dynamic Input Field</h2>
+            <a href="#" class="add-data-item">&plus;</a>
         </div>
-        <button type="submit" id="tombol-submit">Submit</button>
-    </form>
+        <form>
+            <div class="inp-group">
+
+            </div>
+            <button type="submit" id="tombol-submit" class="btn btn-success">Submit</button>
+        </form>
+    </div>
+
 </div>
 
+<button id="tes-url">Tes Url</button>
+
+
+%{--    <div class="input-group">--}%
+%{--        <div class="custom-file">--}%
+%{--            <input type="file" class="custom-file-input" id="inputGroupFile04">--}%
+%{--            <label class="custom-file-label" for="inputGroupFile04">Choose file</label>--}%
+%{--        </div>--}%
+%{--        <div class="input-group-append">--}%
+%{--            <button class="btn btn-outline-secondary" type="button">Button</button>--}%
+%{--        </div>--}%
+%{--    </div>--}%
+
 <script>
-    const addBtn = document.querySelector(".add");
+    const addBtn = document.querySelector(".add-data-item");
     const inputGroup = document.querySelector(".inp-group");
 
     function removeInput() {
@@ -30,7 +47,7 @@
 
     function addInput() {
         const select = document.createElement("select");
-        const options = ["Chair", "Table", "Cupboard"];
+        const options = ["Benih", "Pestisida", "Pupuk", "Alat"];
 
         options.forEach(option => {
             const optionElement = document.createElement("option");
@@ -100,15 +117,10 @@
         return formData;
     }
 
-    // document.querySelector("form").addEventListener("submit", function (event) {
-    //     event.preventDefault();
-    //
-    //     const jsonData = JSON.stringify(collectFormData());
-    //     console.log(jsonData);
-    // });
-
-    document.getElementById('tombol-submit').addEventListener('click', function() {
-        console.log('BUTTON SUBMIT PADA PAGE CREATE TERTEKAN')
+    document.getElementById('tes-url').addEventListener('click', function() {
+        console.log('Button tes url tertekan')
+        window.location.assign(<%= g.createLink(controller: 'item', action: 'index') %>)
+        %{--window.open(<%= g.createLink(controller: 'item', action: 'index') %>)--}%
     })
 
     const submitButton = document.getElementById("tombol-submit");
@@ -129,7 +141,7 @@
             .then(response => response.json())
             .then(data => {
                 console.log("Data sent successfully:", data);
-                // Handle the response from the server if needed
+                window.location.assign('<%= g.createLink(controller: 'item', action: 'index') %>')
             })
             .catch(error => {
                 console.error("Error sending data:", error);
@@ -138,51 +150,6 @@
     });
 
 </script>
-
-%{--    <g:form controller="item" action="saveItems">--}%
-%{--        <div id="item-container">--}%
-%{--            <div class="item-form">--}%
-%{--                <label>Category:</label>--}%
-%{--                <g:select style="width: 200px" name="categoryName" from="${['Chair', 'Table', 'Cupboard']}" required="true"/><br>--}%
-%{--                <label for="itemName">Item Name:</label>--}%
-%{--                <input type="text" name="itemName" id="itemName" required><br>--}%
-%{--                <label for="description">Description:</label>--}%
-%{--                <input type="text" name="description" id="description" required><br>--}%
-%{--                <label for="quantity">Quantity:</label>--}%
-%{--                <input type="number" name="quantity" id="quantity" required><br><br>--}%
-%{--            </div>--}%
-%{--        </div>--}%
-%{--        <div id="dynamic-fields">--}%
-%{--            <!-- Tempat input fields yang ditambahkan secara dinamis -->--}%
-%{--        </div>--}%
-%{--        <button type="button" id="add-item">Add Item</button>--}%
-%{--        <button type="submit">Submit</button>--}%
-%{--    </g:form>--}%
-%{--    <script>--}%
-%{--        const itemContainer = document.getElementById("item-container");--}%
-%{--        const dynamicFields = document.getElementById("dynamic-fields");--}%
-%{--        const addItemButton = document.getElementById("add-item");--}%
-%{--        let itemCount = 1;--}%
-
-%{--        addItemButton.addEventListener("click", () => {--}%
-%{--            const newItemForm = document.createElement("div");--}%
-%{--            newItemForm.className = "item-form";--}%
-%{--            newItemForm.innerHTML = `--}%
-%{--                <label for="category">Category:</label>--}%
-%{--                <g:select style="width: 200px" name="categoryName" from="${['Chair', 'Table', 'Cupboard']}" required="true"/><br>--}%
-%{--                <label for="itemName">Item Name:</label>--}%
-%{--                <input type="text" name="itemName" required><br>--}%
-%{--                <label for="description">Description:</label>--}%
-%{--                <input type="text" name="description" required><br>--}%
-%{--                <label for="quantity">Quantity:</label>--}%
-%{--                <input type="number" name="quantity" required><br><br>--}%
-%{--            `;--}%
-%{--            dynamicFields.appendChild(newItemForm);--}%
-%{--            itemCount++;--}%
-%{--        });--}%
-%{--    </script>--}%
-
-
 
 </body>
 </html>

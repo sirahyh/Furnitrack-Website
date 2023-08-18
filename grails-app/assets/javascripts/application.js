@@ -10,6 +10,7 @@
 //= require bootstrap
 //= require sidebar
 //= require scripts
+//= require dialogs
 //= require sweetalert.init
 //= require sweetalert.min
 //= require jquery.min

@@ -19,18 +19,6 @@ class ItemController {
         model: [items: items]
     }
 
-    // add multiple items
-//    def addItems() {
-//        render(view: "addItemForm")
-//    }
-
-//    def saveItems() {
-//        def params = params
-//        itemService.saveItemsWithTransactions(params)
-//
-//        redirect action: "index"
-//    }
-
     def addItems() {
         render(view: "create")
     }
@@ -38,8 +26,14 @@ class ItemController {
     def saveItems() {
         def formData = request.JSON
 
-        itemService.saveItemsFromFormData(formData)
-        redirect action: 'index'
+        println "isi form data: ${formData}"
+        formData.each {itemData ->
+            itemService.addNewItem(itemData.category, itemData.name, itemData.description, itemData.quantity as int)
+        }
+
+        redirect(action: "index")
+
+
     }
 
     def saveOneItem() {
@@ -75,8 +69,9 @@ class ItemController {
         render(view: "delete", model: [item: item])
     }
 
-    def deleteConfirmed(Long id) {
-        def result = itemService.deleteItem(id)
+    def deleteConfirmed() {
+        def itemId = params.hapusItemId
+        def result = itemService.deleteItem(itemId as Long)
         flash.message = result
 
         redirect(action: "index")
@@ -99,4 +94,12 @@ class ItemController {
         redirect(action: 'index')
     }
 
+    // Search Data By Category
+    def search() {
+        def keyword = params.keyword
+
+        def items = itemService.searchData(keyword as String)
+
+        render(view: 'index', model: [items: items])
+    }
 }

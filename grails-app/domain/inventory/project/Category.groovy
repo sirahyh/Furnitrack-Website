@@ -7,6 +7,6 @@ class Category {
     static hasMany = [items: Item]
     
     static constraints = {
-        categoryName inList: ['Chair', 'Table', 'Cupboard']
+        categoryName inList: ['Benih', 'Pestisida', 'Pupuk', 'Alat']
     }
 }

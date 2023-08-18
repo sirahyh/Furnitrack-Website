@@ -1,10 +1,24 @@
+.create-page {
+    margin-left: 100px;
+}
+
+.create-page h1 {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
 .container-create{
     max-width: 1000px;
     background: #fff;
     border-radius: 5px;
-    width: 1000px;
+    width: 900px;
     padding: 20px;
     box-shadow: 0 2px 2px 3px rgba(0,0,0,0.1);
+}
+
+.insert-transaction {
+    display: flex;
+    --font-color: #555555;
 }
 
 .wrap{
@@ -93,4 +107,36 @@ input:focus{
     border-radius: 5px;
     margin: 15px;
     padding: 5px;
+}
+
+/*HALAMAN INDEX*/
+.index-page{
+    padding-top: 50px;
+    margin-left: 50px;
+}
+
+.add-btn-item {
+    display: flex;
+}
+#btn-add-one-data{
+    margin-left: 50px;
+    color: #fff;
+}
+
+#btn-add-one-data, #btn-add-multiple-data{
+    margin-right: 10px;
+    width: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+}
+
+.search-data{
+    display: flex;
+    justify-content: right;
+}
+
+.search-item-field{
+    width: 200px;
 }

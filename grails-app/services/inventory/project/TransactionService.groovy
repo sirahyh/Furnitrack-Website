@@ -5,11 +5,6 @@ import grails.transaction.Transactional
 @Transactional
 class TransactionService {
 
-    // get data transaction
-    def getAllTransaction(){
-        return Transaction.list()
-    }
-
     // ADD TRANSACTION
     def addTransactionOfItem(Long idItem, String transactionType, int transactionQuantity) {
 
@@ -26,7 +21,7 @@ class TransactionService {
                 item.save()
             } else if (transactionType == "OUT") {
                 if (item.quantity >= transactionQuantity) {
-                   item.quantity -= transactionQuantity
+                    item.quantity -= transactionQuantity
                     item.save()
                 } else {
                     println("Barang keluar harus lebih kecil dari barang yang tersedia")

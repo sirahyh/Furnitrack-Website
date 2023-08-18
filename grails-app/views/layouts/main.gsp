@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
     <asset:stylesheet src="application.css"/>
-
+    <asset:link rel="icon" href="logo.png" type="image/x-ico" />
 
     <g:layoutHead/>
 </head>
@@ -17,7 +17,7 @@
 %{--<div id="throbber" style="display:none; min-height:120px;"></div>--}%
 %{--<div id="noty-holder"></div>--}%
 <div id="wrapper">
-%{--    <g:render template="/layouts/sidebar"/>--}%
+    <g:render template="/layouts/sidebar"/>
     <g:layoutBody/>
 
 
