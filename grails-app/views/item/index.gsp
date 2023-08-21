@@ -27,7 +27,7 @@
 
     <div class="add-btn-item">
 %{--        <a class="btn btn-success btn-sm" id="btn-add-one-data" href="${createLink(action: 'insert')}">Add One Data</a>--}%
-        <a class="btn btn-success btn-sm" id="btn-add-one-data" data-toggle="modal" data-target="#addDataModal">Add One Data</a>
+%{--        <a class="btn btn-success btn-sm" id="btn-add-one-data" data-toggle="modal" data-target="#addDataModal">Add One Data</a>--}%
         <a class="btn btn-success btn-sm" id="btn-add-multiple-data" href="${createLink(action: 'create')}">Add Multiple Data</a>
     </div>
 
@@ -44,14 +44,14 @@
                             <thead>
                             <tr>
                                 <th>Name</th>
-                                <th>Desccription</th>
+                                <th>Description</th>
                                 <th>Quantity</th>
                                 <th>Transaction</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <g:each in="${items}" var="item">
+                            <g:each in="${cItems}" var="item">
                                 <tr>
                                     <td>${item.itemName}</td>
                                     <td>${item.description}</td>
@@ -217,41 +217,6 @@
         </div>
     </div>
 </div>
-
-<script>
-    function openInputModal(itemId, itemName, description) {
-        $('#inputItemId').val(parseInt(itemId));
-        $('#inputItemName').text(itemName);
-        $('#inputItemDescription').text(description);
-        $('#inputModal').modal('show');
-    }
-
-    function editDataItem(itemId, itemName, itemDescription, itemQuantity) {
-        $('#itemId').val(parseInt(itemId));
-        $('#itemName').val(itemName);
-        $('#itemDescription').val(itemDescription);
-        $('#itemQuantity').val(itemQuantity);
-        $('#editDataModal').modal('show');
-    }
-
-    function deleteDataItem(itemId, itemName){
-        $('#deleteItemName').text(itemName)
-        $('#hapusItemId').val(parseInt(itemId))
-    }
-    $(document).ready(function() {
-        $('#submitDataEdit').on('click', function() {
-            console.log('Button Submit edit clicked');
-        });
-    });
-
-    // function editDataItem(itemId, itemName, itemDescription, itemQuantity){
-    //     $('#itemId').val(itemId)
-    //     $('#itemName').val(itemName)
-    //     $('#itemDescription').val(itemDescription)
-    //     $('#itemQuantity').val(itemQuantity)
-    //     $('#editDataModal').modal('show')
-    // }
-</script>
 
 </body>
 </html>

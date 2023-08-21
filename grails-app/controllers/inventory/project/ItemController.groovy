@@ -1,11 +1,13 @@
 package inventory.project
 
 import grails.transaction.Transactional
+import model.request.ReqItem
+import model.response.itemListItem
+import org.springframework.http.HttpStatus
 
 class ItemController {
 
     def itemService
-    def transactionService
 
     def create() {
     }
@@ -15,8 +17,9 @@ class ItemController {
     }
 
     def index() {
-        def items = itemService.getAllItems()
-        model: [items: items]
+//        def items = itemService.getAllItems()
+        List<itemListItem> cItems = itemService.getListItems()
+        [cItems: cItems]
     }
 
     def addItems() {
@@ -53,12 +56,16 @@ class ItemController {
         model: [items: item]
     }
 
-    def update() {
-        def itemId = params.id
-        def itemName = params.itemName
-        def description = params.itemDescription
+    def update(ReqItem reqItem) {
+//        def itemId = params.id
+//        def itemName = params.itemName
+//        def description = params.itemDescription
+        if (reqItem.hasErrors()) {
+            render status: HttpStatus.BAD_REQUEST
+            return
+        }
 
-        def result = itemService.editItem(itemId as Long, itemName, description)
+        def result = itemService.editItem(reqItem.id, reqItem.itemName, reqItem.description)
         flash.message = result
 
         redirect(action: "index")
@@ -77,29 +84,17 @@ class ItemController {
         redirect(action: "index")
     }
 
-//     Input Transaction
-    def inputTransaction() {
-        def itemName = params.itemName
-        def transactionType = params.categoryName
-        def quantity = params.itemQuantity.toInteger()
-
-        def result = transactionService.createTransaction(itemName, transactionType, quantity)
-
-        if (result) {
-            flash.message = "Transaksi berhasil disimpan."
-        } else {
-            flash.message = "Gagal menyimpan transaksi."
-        }
-
-        redirect(action: 'index')
-    }
-
     // Search Data By Category
     def search() {
         def keyword = params.keyword
 
         def items = itemService.searchData(keyword as String)
 
-        render(view: 'index', model: [items: items])
+        if (items == "Category not found") {
+            render(view: '/transaction/error', model: [message: items])
+        } else {
+            render(view: 'index', model: [items: items])
+        }
+
     }
 }

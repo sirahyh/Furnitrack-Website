@@ -51,10 +51,10 @@
                             <tbody>
                             <g:each in="${transactions}" var="transaction">
                                 <tr>
-                                    <td>${transaction[0]}</td> <!-- Transaction Type -->
-                                    <td>${transaction[1]}</td> <!-- Transaction Date -->
-                                    <td>${transaction[2]}</td> <!-- Quantity -->
-                                    <td>${transaction[3]}</td> <!-- Item Name -->
+                                    <td>${transaction.itemName}</td>
+                                    <td>${transaction.transactionType}</td>
+                                    <td>${transaction.transactionDate}</td>
+                                    <td>${transaction.quantity}</td>
                                 </tr>
                             </g:each>
                             </tbody>

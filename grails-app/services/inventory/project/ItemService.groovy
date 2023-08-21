@@ -1,38 +1,34 @@
 package inventory.project
 
+import model.response.itemListItem
+import org.hibernate.sql.JoinType
+import org.hibernate.transform.ResultTransformer
+import org.hibernate.transform.Transformers
+
 class ItemService {
 
-    // MULTIPLE ITEM
-    def saveItemsFromFormData(List formData) {
-        println "isi form data: ${formData}"
-        formData.each { itemData ->
-
-            def categoryName = itemData.category
-            def category = Category.findOrCreateWhere(categoryName: categoryName)
-            category.save()
-            def item = new Item(
-                    category: itemData.category,
-                    itemName: itemData.name,
-                    description: itemData.description,
-                    quantity: itemData.quantity.toInteger()
-            )
-            item.category = category
-            item.save(flush: true)
-
-//            def category = Category.findByCategoryName(itemData.category)
-//            def category = Category.findOrCreateWhere(itemData.category)
-//            if (category) {
-//                def item = new Item(
-//                        category: category,
-//                        itemName: itemData.name,
-//                        description: itemData.description,
-//                        quantity: itemData.quantity.toInteger()
-//                )
-//                item.save(flush: true)
-//            } else {
-//                println "Category not found for ${itemData.category}"
+//    List<itemListItem> getListItems() {
+//        List<itemListItem> items = Item.createCriteria().list {
+//            resultTransformer(Transformers.aliasToBean(itemListItem))
+//            createAlias("transaction", "t", JoinType.LEFT_OUTER_JOIN)
+//            projections {
+//                property("t.id", "id")
+//                property("itemName", "itemName")
 //            }
-        }
+//        } as List<itemListItem>
+//        return items
+//    }
+
+    List<itemListItem> getListItems() {
+        List<itemListItem> items = Item.createCriteria().list {
+            resultTransformer(Transformers.aliasToBean(itemListItem))
+            projections {
+                property("itemName", "itemName")
+                property("description", "description")
+                property("quantity", "quantity")
+            }
+        } as List<itemListItem>
+        return items
     }
 
     // ADD ONE DATA ITEM
@@ -98,11 +94,10 @@ class ItemService {
         def itemsInfo
         if (category) {
             itemsInfo = category.items.collect { [itemName: it.itemName, description: it.description, quantity: it.quantity] }
-            println "isi itemsInfo: ${itemsInfo}"
+            return itemsInfo
         } else {
-            println("Category not found")
+            return "Category not found"
         }
-        return itemsInfo
     }
 }
 

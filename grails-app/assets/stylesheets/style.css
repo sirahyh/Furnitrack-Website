@@ -102,7 +102,7 @@
   font-size: 18px;
 }
 .card-title p {
-  font-family: 'Roboto', sans-serif;
+  /*font-family: 'Roboto', sans-serif;*/
   margin-bottom: 12px;
 }
 .card-header-right-icon {
@@ -478,7 +478,7 @@ a.dt-button.active:not(.disabled) {
   margin: 15px 0;
 }
 .panel-body {
-  font-family: 'Roboto', sans-serif;
+  /*font-family: 'Roboto', sans-serif;*/
 }
 .panel-primary {
   border-color: #5873fe;
@@ -763,7 +763,7 @@ a.dt-button.active:not(.disabled) {
 }
 .dropdown-content-heading span {
   font-size: 13px;
-  font-family: 'Roboto', sans-serif;
+  /*font-family: 'Roboto', sans-serif;*/
   color: #373757;
 }
 .dropdown-content-heading i {
@@ -807,7 +807,7 @@ a.dt-button.active:not(.disabled) {
 }
 .notification-text {
   font-size: 12px;
-  font-family: 'Roboto', sans-serif;
+  /*font-family: 'Roboto', sans-serif;*/
   max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -853,7 +853,7 @@ a.dt-button.active:not(.disabled) {
   color: #373757;
 }
 .dropdown-profile li a span {
-  font-family: 'Roboto', sans-serif;
+  /*font-family: 'Roboto', sans-serif;*/
   font-size: 14px;
 }
 .dropdown-profile li a i {
@@ -892,13 +892,13 @@ a.dt-button.active:not(.disabled) {
   float: right;
 }
 .main .page-header .breadcrumb li.active {
-  font-family: 'Roboto', sans-serif;
+  /*font-family: 'Roboto', sans-serif;*/
   font-weight: normal;
   font-size: 14px;
 }
 .main .page-header .breadcrumb li a {
   font-size: 14px;
-  font-family: 'Roboto', sans-serif;
+  /*font-family: 'Roboto', sans-serif;*/
   display: block;
 }
 .dropdown-task .progress {
@@ -2712,7 +2712,7 @@ tbody tr th {
   font-weight: normal;
 }
 tbody tr td {
-  font-family: 'Roboto', sans-serif;
+  /*font-family: 'Roboto', sans-serif;*/
   color: #868e96;
 }
 tbody tr td:last-child {

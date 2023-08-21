@@ -1,9 +1,26 @@
 package inventory.project
 
 import grails.transaction.Transactional
+import model.response.transactionList
+import org.hibernate.transform.Transformers
 
 @Transactional
 class TransactionService {
+
+    // GET TRANSACTION DATA
+    List<transactionList> getListTransaction() {
+        List<transactionList> transactions = Transaction.createCriteria().list {
+            resultTransformer(Transformers.aliasToBean(transactionList))
+            createAlias("item", "i")
+            projections {
+                property("i.itemName", "itemName")
+                property("transactionType", "transactionType")
+                property("transactionDate", "transactionDate")
+                property("quantity", "quantity")
+            }
+        } as List<transactionList>
+        return transactions
+    }
 
     // ADD TRANSACTION
     def addTransactionOfItem(Long idItem, String transactionType, int transactionQuantity) {
@@ -13,19 +30,18 @@ class TransactionService {
         if (item) {
             def transaction = new Transaction(item: idItem, transactionType: transactionType, quantity: transactionQuantity, transactionDate: new Date())
 
-            transaction.save()
-
             if (transactionType == "IN") {
                 println "transaksi termasuk masuk"
                 item.quantity += transactionQuantity
                 item.save()
+                transaction.save()
             } else if (transactionType == "OUT") {
                 if (item.quantity >= transactionQuantity) {
                     item.quantity -= transactionQuantity
                     item.save()
+                    transaction.save()
                 } else {
-                    println("Barang keluar harus lebih kecil dari barang yang tersedia")
-                    return "Barang keluar harus lebih kecil dari barang yang tersedia"
+                    return "Outgoing items must be less than available items"
                 }
             }
         }

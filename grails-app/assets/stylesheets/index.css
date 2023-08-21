@@ -124,6 +124,7 @@ input:focus{
 }
 
 #btn-add-one-data, #btn-add-multiple-data{
+    margin-left: 60px;
     margin-right: 10px;
     width: 150px;
     display: flex;
@@ -135,6 +136,7 @@ input:focus{
 .search-data{
     display: flex;
     justify-content: right;
+    margin-right: 50px;
 }
 
 .search-item-field{

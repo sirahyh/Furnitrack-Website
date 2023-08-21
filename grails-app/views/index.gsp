@@ -11,9 +11,9 @@
 
 <div class="main-home">
     <div class="left-home">
-        <h1>Welcome To Furnitrack!</h1>
-        <span>Furniture Inventory Website</span>
-        <p>Assisting you in managing furniture storage for more efficient sales</p>
+        <h1>Welcome To AgroStock!</h1>
+        <span>Agro Inventory Website</span>
+        <p>Assisting you in managing agricultural and farming products storage for more efficient sales</p>
 
         <button class="btn-home">
             <a href="${g.createLink(controller: 'item', action: 'index')}">Start</a>

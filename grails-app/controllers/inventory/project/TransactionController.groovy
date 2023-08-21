@@ -1,12 +1,16 @@
 package inventory.project
 
+import model.response.itemListItem
+import model.response.transactionList
+
 class TransactionController {
 
     def transactionService
 
     def index() {
-        def transactions = transactionService.getTransactionsWithItemNames()
-        [transactions: transactions]
+//        def transactions = transactionService.getTransactionsWithItemNames()
+        List<transactionList> transaction = transactionService.getListTransaction()
+        [transactions: transaction]
     }
 
 
@@ -16,7 +20,11 @@ class TransactionController {
         def transactionQuantity = params.transactionQuantity
 
         def result = transactionService.addTransactionOfItem(itemId as Long, transactionType, transactionQuantity as int)
-        flash.message = result
+        if (result == "Outgoing items must be less than available items") {
+            flash.errorMessage = result
+            render(view: 'error', model: [message: result])
+            return
+        }
 
         redirect(action: "index")
     }
