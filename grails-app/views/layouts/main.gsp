@@ -16,6 +16,22 @@
 <body>
 %{--<div id="throbber" style="display:none; min-height:120px;"></div>--}%
 %{--<div id="noty-holder"></div>--}%
+%{--<header>--}%
+%{--    <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark rounded">--}%
+%{--        <a class="navbar-brand" href="#">Grails Online Contacts Book</a>--}%
+%{--        <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse"--}%
+%{--                data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false"--}%
+%{--                aria-label="Toggle navigation">--}%
+%{--            <span class="navbar-toggler-icon"></span>--}%
+%{--        </button>--}%
+%{--        --}%%{--Member Action Menu--}%
+%{--        <ul class="navbar-nav ml-auto">--}%
+%{--            <UIHelper:memberActionMenu/>--}%
+%{--        </ul>--}%
+%{--    </nav>--}%
+%{--</header>--}%
+
+
 <div id="wrapper">
     <g:render template="/layouts/sidebar"/>
     <g:layoutBody/>
