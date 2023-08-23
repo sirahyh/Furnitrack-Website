@@ -88,11 +88,16 @@ function openInputModal(itemId, itemName, description) {
     $('#inputModal').modal('show');
 }
 
-function editDataItem(itemId, itemName, itemDescription, itemQuantity) {
+function editDataItem(itemId, itemName, itemDescription, itemQuantity, itemImage) {
     $('#itemId').val(parseInt(itemId));
     $('#itemName').val(itemName);
     $('#itemDescription').val(itemDescription);
     $('#itemQuantity').val(itemQuantity);
+    if (itemImage) {
+        $('#currentItemImage').attr('src', 'item-image/' + itemId + '-' + itemImage);
+    } else {
+        $('#currentItemImage').attr('src', 'images/default-image.png');
+    }
     $('#editDataModal').modal('show');
 }
 
@@ -147,6 +152,18 @@ function addInput() {
     quantity.className = "input-field";
     quantity.id = "itemQuantity"
 
+    // Buat input field: Image
+    const itemImageLabel = document.createElement("label");
+    itemImageLabel.textContent = "Image";
+    const itemImageInput = document.createElement("input");
+    itemImageInput.type = "file";
+    itemImageInput.className = "form-control";
+    itemImageInput.name = "itemImage";
+    const itemImageFormGroup = document.createElement("div");
+    itemImageFormGroup.className = "form-group";
+    itemImageFormGroup.appendChild(itemImageLabel);
+    itemImageFormGroup.appendChild(itemImageInput);
+
     const btn = document.createElement("a");
     btn.className = "delete";
     btn.innerHTML = "&times";
@@ -155,6 +172,7 @@ function addInput() {
     const flex = document.createElement("div");
     flex.className = "flex";
 
+    flex.appendChild(itemImageFormGroup)
     flex.appendChild(select);
     flex.appendChild(name);
     flex.appendChild(description);
@@ -215,20 +233,3 @@ submitButton.addEventListener("click", function() {
             console.error("Error sending data:", error);
         });
 });
-
-// EXPORT TABLE
-
-// $("#export-data").on("click", "#btnExport", function () {
-//     html2canvas($('#tblCustomers')[0], {
-//         onrendered: function (canvas) {
-//             var data = canvas.toDataURL();
-//             var docDefinition = {
-//                 content: [{
-//                     image: data,
-//                     width: 500
-//                 }]
-//             };
-//             pdfMake.createPdf(docDefinition).download("transaction-history.pdf");
-//         }
-//     });
-// });

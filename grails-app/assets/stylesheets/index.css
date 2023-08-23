@@ -8,11 +8,10 @@
 }
 
 .container-create{
-    max-width: 1000px;
     background: #fff;
     border-radius: 5px;
-    width: 900px;
     padding: 20px;
+    margin-right: 50px;
     box-shadow: 0 2px 2px 3px rgba(0,0,0,0.1);
 }
 

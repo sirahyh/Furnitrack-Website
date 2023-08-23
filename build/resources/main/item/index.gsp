@@ -26,7 +26,7 @@
     </div>
 
     <div class="add-btn-item">
-%{--        <a class="btn btn-success btn-sm" id="btn-add-one-data" href="${createLink(action: 'insert')}">Add One Data</a>--}%
+        <a class="btn btn-success btn-sm" id="btn-add-one-data" href="${createLink(action: 'insert')}">Add One Data</a>
 %{--        <a class="btn btn-success btn-sm" id="btn-add-one-data" data-toggle="modal" data-target="#addDataModal">Add One Data</a>--}%
         <a class="btn btn-success btn-sm" id="btn-add-multiple-data" href="${createLink(action: 'create')}">Add Multiple Data</a>
     </div>
@@ -43,6 +43,7 @@
                         <table class="table table-hover mb-0 c_list">
                             <thead>
                             <tr>
+                                <th>Image</th>
                                 <th>Name</th>
                                 <th>Description</th>
                                 <th>Quantity</th>
@@ -51,8 +52,16 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <g:each in="${cItems}" var="item">
+                            <g:each in="${items}" var="item">
                                 <tr>
+                                    <td>
+                                        <g:if test="${item.image}">
+                                            <img src="${resource(dir: "item-image", file: "/${item.id}-${item.image}")}" class="img-thumbnail" style="height: 50px; width: 50px;"/>
+                                        </g:if>
+                                        <g:else>
+                                            <g:img dir="images" file="grails.svg" class="img-thumbnail" style="height: 50px; width: 50px;"/>
+                                        </g:else>
+                                    </td>
                                     <td>${item.itemName}</td>
                                     <td>${item.description}</td>
                                     <td>${item.quantity}</td>
@@ -62,7 +71,8 @@
                                         </button>
                                     </td>
                                     <td class="action-buttons">
-                                        <button type="button" class="btn btn-info" title="Edit" data-toggle="modal" onclick="editDataItem('${item.id}','${item.itemName}', '${item.description}', '${item.quantity}')" data-target="#editDataModal"><i class="fa fa-edit"></i></button>
+                                        <button type="button" class="btn btn-info" title="Edit" data-toggle="modal" onclick="editDataItem('${item.id}','${item.itemName}', '${item.description}', '${item.quantity}', '${item.image}')" data-target="#editDataModal"><i class="fa fa-edit"></i></button>
+%{--                                        <button type="button" class="btn btn-info" title="Edit"><g:link action="edit" params="[id:item.id]"><i class="fa fa-edit"></i></g:link></button>--}%
                                         <button type="button" class="btn btn-danger js-sweetalert" data-toggle="modal" data-target="#deleteModal" onclick="deleteDataItem('${item.id}','${item.itemName}')"><i class="fa fa-trash-o"></i></button>
 
                                     </td>
@@ -195,7 +205,14 @@
                 </button>
             </div>
             <div class="modal-body">
-                <g:form controller="item" action="update">
+                <g:form controller="item" action="update" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="currentItemImage">Image</label>
+                        <g:field name="itemImage" class="form-control" type="file" placeholder="Please Upload Image"/>
+                        <div>
+                            <img id="currentItemImage" class="img-thumbnail" style="height: 100px; width: 100px;"/>
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label for="itemName">Item Name</label>
                         <input type="text" class="form-control" id="itemName" name="itemName">

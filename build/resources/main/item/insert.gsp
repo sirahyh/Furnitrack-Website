@@ -14,7 +14,7 @@
 <body>
 
 <h1>Insert One Data To Database</h1>
-<g:form controller="item" action="saveOneItem">
+<g:form controller="item" action="saveOneItem" enctype="multipart/form-data">
     <div class="row">
         <div class="col-lg-6">
             <div class="card">
@@ -28,7 +28,7 @@
                         <form>
                             <div class="form-group">
                                 <label for="categoryName">Category</label>
-                                <g:select class="form-control" name="categoryName" from="${['Chair', 'Table', 'Cupboard']}" required="true"/><br>
+                                <g:select class="form-control" name="categoryName" from="${['Benih', 'Pupuk', 'Alat']}" required="true"/><br>
 
                             </div>
                             <div class="form-group">
@@ -43,6 +43,13 @@
                                 <label for="itemQuantity">Quantity</label>
                                 <input type="number" class="form-control" id="itemQuantity" name="itemQuantity" min="1" >
                             </div>
+                            <div class="form-group">
+                                <label>Image</label>
+                                <g:field name="itemImage" class="form-control" type="file" placeholder="Please Upload Image"/>
+                                <g:if test="${item?.image}">
+                                    <img src="${resource(dir: "item-image", file: "/${item.id}-${item.image}")}" class="img-thumbnail" style="margin-top: 10px; height: 100px; width: 100px;"/>
+                                </g:if>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -55,47 +62,48 @@
     </div>
 </g:form>
 
-<div class="body">
-    <h6>2. Custom file input</h6>
-    <div class="input-group mb-3">
-        <div class="input-group-prepend">
-            <span class="input-group-text">Upload</span>
-        </div>
-        <div class="custom-file">
-            <input type="file" class="custom-file-input" id="inputGroupFile01">
-            <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
-        </div>
-    </div>
+%{--<div class="body">--}%
+%{--    <h6>2. Custom file input</h6>--}%
+%{--    <div class="input-group mb-3">--}%
+%{--        <div class="input-group-prepend">--}%
+%{--            <span class="input-group-text">Upload</span>--}%
+%{--        </div>--}%
+%{--        <div class="custom-file">--}%
+%{--            <input type="file" class="custom-file-input" id="inputGroupFile01">--}%
+%{--            <label class="custom-file-label" for="inputGroupFile01">Choose file</label>--}%
+%{--        </div>--}%
+%{--    </div>--}%
 
-    <div class="input-group mb-3">
-        <div class="custom-file">
-            <input type="file" class="custom-file-input" id="inputGroupFile02">
-            <label class="custom-file-label" for="inputGroupFile02">Choose file</label>
-        </div>
-        <div class="input-group-append">
-            <span class="input-group-text" id="">Upload</span>
-        </div>
-    </div>
+%{--    <div class="input-group mb-3">--}%
+%{--        <div class="custom-file">--}%
+%{--            <input type="file" class="custom-file-input" id="inputGroupFile02">--}%
+%{--            <label class="custom-file-label" for="inputGroupFile02">Choose file</label>--}%
+%{--        </div>--}%
+%{--        <div class="input-group-append">--}%
+%{--            <span class="input-group-text" id="">Upload</span>--}%
+%{--        </div>--}%
+%{--    </div>--}%
 
-    <div class="input-group mb-3">
-        <div class="input-group-prepend">
-            <button class="btn btn-outline-secondary" type="button">Button</button>
-        </div>
-        <div class="custom-file">
-            <input type="file" class="custom-file-input" id="inputGroupFile03">
-            <label class="custom-file-label" for="inputGroupFile03">Choose file</label>
-        </div>
-    </div>
+%{--    <div class="input-group mb-3">--}%
+%{--        <div class="input-group-prepend">--}%
+%{--            <button class="btn btn-outline-secondary" type="button">Button</button>--}%
+%{--        </div>--}%
+%{--        <div class="custom-file">--}%
+%{--            <input type="file" class="custom-file-input" id="inputGroupFile03">--}%
+%{--            <label class="custom-file-label" for="inputGroupFile03">Choose file</label>--}%
+%{--        </div>--}%
+%{--    </div>--}%
 
-    <div class="input-group">
-        <div class="custom-file">
-            <input type="file" class="custom-file-input" id="inputGroupFile04">
-            <label class="custom-file-label" for="inputGroupFile04">Choose file</label>
-        </div>
-        <div class="input-group-append">
-            <button class="btn btn-outline-secondary" type="button">Button</button>
-        </div>
-    </div>
-</div>
+%{--    <div class="input-group">--}%
+%{--        <div class="custom-file">--}%
+%{--            <input type="file" class="custom-file-input" id="inputGroupFile04">--}%
+%{--            <label class="custom-file-label" for="inputGroupFile04">Choose file</label>--}%
+%{--        </div>--}%
+%{--        <div class="input-group-append">--}%
+%{--            <button class="btn btn-outline-secondary" type="button">Button</button>--}%
+%{--        </div>--}%
+%{--    </div>--}%
+%{--</div>--}%
+
 </body>
 </html>

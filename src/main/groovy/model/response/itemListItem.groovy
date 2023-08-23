@@ -7,4 +7,5 @@ class itemListItem implements Validateable {
     String itemName
     String description
     int quantity
+    String image
 }

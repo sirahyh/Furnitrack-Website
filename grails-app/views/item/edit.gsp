@@ -7,7 +7,7 @@
     </head>
     <body>
     <h1 class="form-title">Edit Item</h1>
-    <g:form controller="item" action="update" params="[id: items.id]">
+    <g:form controller="item" action="update" params="[id: items.id]" enctype="multipart/form-data">
         <div class="row">
             <div class="col-lg-6">
                 <div class="card">
@@ -19,6 +19,13 @@
                     <div class="card-body">
                         <div class="basic-form">
                             <form>
+                                <div class="form-group">
+                                    <label><g:message code="image"/></label>
+                                    <g:field name="itemImage" class="form-control" type="file" placeholder="Please Upload Image"/>
+                                    <g:if test="${items.image}">
+                                        <img src="${resource(dir: "contact-image", file: "/${items.id}-${items.image}")}" class="img-thumbnail" style="margin-top: 10px; height: 100px; width: 100px;"/>
+                                    </g:if>
+                                </div>
                                 <div class="form-group">
                                     <label for="itemName">Item Name</label>
                                     <input type="text" class="form-control" id="itemName" name="itemName" value="${items.itemName}">

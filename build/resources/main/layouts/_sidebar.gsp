@@ -33,19 +33,27 @@
 %{--            <span>Furnitrack</span>--}%
 %{--        </div>--}%
 
+%{--        <header>--}%
+%{--            <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark rounded">--}%
+%{--                <a class="navbar-brand" href="#">Grails Online Contacts Book</a>--}%
+%{--                <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse"--}%
+%{--                        data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false"--}%
+%{--                        aria-label="Toggle navigation">--}%
+%{--                    <span class="navbar-toggler-icon"></span>--}%
+%{--                </button>--}%
+%{--                --}%%{--Member Action Menu--}%
+%{--                <ul class="navbar-nav ml-auto">--}%
+%{--                    <UIHelper:memberActionMenu/>--}%
+%{--                </ul>--}%
+%{--            </nav>--}%
+%{--        </header>--}%
+
         <div class="user-account">
 %{--            <img src="assets/images/user.png" class="rounded-circle user-photo" alt="User Profile Picture">--}%
-            <div class="dropdown">
                 <span>Welcome,</span>
-                <a href="javascript:void(0);" class="dropdown-toggle user-name" data-toggle="dropdown"><strong>Pamela Petrus</strong></a>
-                <ul class="dropdown-menu dropdown-menu-right account">
-                    <li><a href="page-profile2.html"><i class="icon-user"></i>My Profile</a></li>
-                    <li><a href="app-inbox.html"><i class="icon-envelope-open"></i>Messages</a></li>
-                    <li><a href="javascript:void(0);"><i class="icon-settings"></i>Settings</a></li>
-                    <li class="divider"></li>
-                    <li><a href="page-login.html"><i class="icon-power"></i>Logout</a></li>
+                <ul class="navbar-nav ml-auto">
+                    <UIHelper:memberActionMenu/>
                 </ul>
-            </div>
             <hr>
 
         </div>

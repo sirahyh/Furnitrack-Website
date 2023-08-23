@@ -18,37 +18,59 @@ class ItemController {
 
     def index() {
 //        def items = itemService.getAllItems()
-        List<itemListItem> cItems = itemService.getListItems()
-        [cItems: cItems]
+        List<itemListItem> items = itemService.getListItems()
+        [items: items]
     }
 
     def addItems() {
         render(view: "create")
     }
 
-    def saveItems() {
-        def formData = request.JSON
+//    def saveItems() {
+//        def formData = request.JSON
+//
+//        println "isi form data: ${formData}"
+//        formData.each {itemData ->
+//            itemService.addNewItem(itemData.category, itemData.name, itemData.description, itemData.quantity as int)
+//        }
+//
+//        redirect(action: "index")
+//
+//
+//    }
 
-        println "isi form data: ${formData}"
-        formData.each {itemData ->
-            itemService.addNewItem(itemData.category, itemData.name, itemData.description, itemData.quantity as int)
-        }
-
-        redirect(action: "index")
-
-
-    }
+//    def saveOneItem() {
+//        def categoryName = params.categoryName
+//        def itemName = params.itemName
+//        def description = params.itemDescription
+//        def quantity = params.itemQuantity
+//
+//        def result = itemService.addNewItem(categoryName, itemName, description, quantity as int)
+//        flash.message = result
+//
+//        redirect(action: "index")
+//    }
 
     def saveOneItem() {
+
         def categoryName = params.categoryName
         def itemName = params.itemName
         def description = params.itemDescription
         def quantity = params.itemQuantity
 
-        def result = itemService.addNewItem(categoryName, itemName, description, quantity as int)
-        flash.message = result
+        def response = itemService.addNewItem(categoryName, itemName, description, quantity as int, request)
+        if (response) {
+            redirect(action: 'index')
+        }
+//        if (response.isSuccess) {
+//            flash.message = AppUtil.infoMessage(g.message(code: "saved"))
+//            redirect(controller: "item", action: "index")
+//        } else {
+//            flash.redirectParams = response.model
+//            flash.message = AppUtil.infoMessage(g.message(code: "unable.to.save"), false)
+//            redirect(controller: "item", action: "insert")
+//        }
 
-        redirect(action: "index")
     }
 
     def edit(Long id) {
@@ -56,16 +78,28 @@ class ItemController {
         model: [items: item]
     }
 
-    def update(ReqItem reqItem) {
+    // Kode Update Kak Ilham
+//    def update(ReqItem reqItem) {
 //        def itemId = params.id
 //        def itemName = params.itemName
 //        def description = params.itemDescription
-        if (reqItem.hasErrors()) {
-            render status: HttpStatus.BAD_REQUEST
-            return
-        }
+//        if (reqItem.hasErrors()) {
+//            render status: HttpStatus.BAD_REQUEST
+//            return
+//        }
+//
+//        def result = itemService.editItem(reqItem.id, reqItem.itemName, reqItem.description)
+//        flash.message = result
+//
+//        redirect(action: "index")
+//    }
 
-        def result = itemService.editItem(reqItem.id, reqItem.itemName, reqItem.description)
+    def update() {
+        def itemId = params.id
+        def itemName = params.itemName
+        def description = params.itemDescription
+
+        def result = itemService.editItem(itemId as Long, itemName, description, request)
         flash.message = result
 
         redirect(action: "index")
