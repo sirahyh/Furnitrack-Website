@@ -1,6 +1,7 @@
 package inventory.project
 
 import grails.transaction.Transactional
+import model.request.ReqTransactionCommand
 import model.response.transactionList
 import org.hibernate.transform.Transformers
 
@@ -18,26 +19,31 @@ class TransactionService {
                 property("transactionDate", "transactionDate")
                 property("quantity", "quantity")
             }
+            order('transactionDate', 'desc')
         } as List<transactionList>
         return transactions
     }
 
     // ADD TRANSACTION
-    def addTransactionOfItem(Long idItem, String transactionType, int transactionQuantity) {
-
-        def item = Item.get(idItem)
+    def addTransactionOfItem(ReqTransactionCommand transactionCommand) {
+        def item = Item.get(transactionCommand.itemId)
 
         if (item) {
-            def transaction = new Transaction(item: idItem, transactionType: transactionType, quantity: transactionQuantity, transactionDate: new Date())
+            def transaction = new Transaction(
+                    item: item,
+                    transactionType: transactionCommand.transactionType,
+                    quantity: transactionCommand.transactionQuantity,
+                    transactionDate: new Date()
+            )
 
-            if (transactionType == "IN") {
+            if (transaction.transactionType == "IN") {
                 println "transaksi termasuk masuk"
-                item.quantity += transactionQuantity
+                item.quantity += transactionCommand.transactionQuantity
                 item.save()
                 transaction.save()
-            } else if (transactionType == "OUT") {
-                if (item.quantity >= transactionQuantity) {
-                    item.quantity -= transactionQuantity
+            } else if (transaction.transactionType == "OUT") {
+                if (item.quantity >= transactionCommand.transactionQuantity) {
+                    item.quantity -= transactionCommand.transactionQuantity
                     item.save()
                     transaction.save()
                 } else {
@@ -47,17 +53,4 @@ class TransactionService {
         }
     }
 
-    // GET DATA FROM TABLE JOIN ITEM AND TRANSACTION
-    def getTransactionsWithItemNames() {
-        Transaction.createCriteria().list {
-            createAlias('item', 'i')
-            projections {
-                property('i.itemName')
-                property('transactionType')
-                property('quantity')
-                property('transactionDate')
-            }
-            order('transactionDate', 'desc')
-        }
-    }
 }

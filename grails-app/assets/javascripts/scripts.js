@@ -185,6 +185,32 @@ function addInput() {
 addBtn.addEventListener("click", addInput);
 
 function collectFormData() {
+    const formData = new FormData();
+    const flexItems = document.querySelectorAll(".flex");
+
+    flexItems.forEach(item => {
+        const category = item.querySelector("#itemCategory").value;
+        const name = item.querySelector("#itemName").value;
+        const description = item.querySelector("#itemDescription").value;
+        const quantity = item.querySelector("#itemQuantity").value;
+        const imageInput = item.querySelector("#itemImage");
+
+        formData.append("items", JSON.stringify({
+            category: category,
+            name: name,
+            description: description,
+            quantity: quantity
+        }));
+
+        if (imageInput.files) {
+            formData.append("itemImage", imageInput.files[0]);
+        }
+    });
+
+    return formData;
+}
+
+function collectFormData() {
     const formData = [];
     const flexItems = document.querySelectorAll(".flex");
 
@@ -205,8 +231,10 @@ function collectFormData() {
     return formData;
 }
 
-document.getElementById('tombol-submit').addEventListener('click', function() {
+document.getElementById('tombol-submit').addEventListener('click', function(event) {
+    event.preventDefault()
     console.log('BUTTON SUBMIT PADA PAGE CREATE TERTEKAN')
+    console.log("isi dari collectData: ", collectFormData())
 })
 
 const submitButton = document.getElementById("tombol-submit");
@@ -214,22 +242,34 @@ const endpointURL = document.getElementById('endpoint-save').getAttribute('data-
 const endpointIndex = document.getElementById('redirect-index').getAttribute('data-endpoint-url');
 
 submitButton.addEventListener("click", function() {
-    const jsonData = collectFormData();
-    console.log(jsonData);
+    const collectData = collectFormData();
+    console.log(collectData);
 
     fetch(endpointURL, {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(jsonData)
+        body: collectData
     })
         .then(response => response.json())
         .then(data => {
             console.log("Data sent successfully:", data);
-            window.location.href = endpointIndex;
         })
         .catch(error => {
             console.error("Error sending data:", error);
         });
 });
+    // fetch(endpointURL, {
+    //     method: 'POST',
+    //     headers: {
+    //         'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify(jsonData)
+    // })
+    //     .then(response => response.json())
+    //     .then(data => {
+    //         console.log("Data sent successfully:", data);
+    //         window.location.href = endpointIndex;
+    //     })
+    //     .catch(error => {
+    //         console.error("Error sending data:", error);
+    //     });
+// });

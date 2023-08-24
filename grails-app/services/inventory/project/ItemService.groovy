@@ -1,9 +1,8 @@
 package inventory.project
 
 import com.FileUtil
+import model.request.ReqItemCommand
 import model.response.itemListItem
-import org.hibernate.sql.JoinType
-import org.hibernate.transform.ResultTransformer
 import org.hibernate.transform.Transformers
 
 import javax.servlet.http.HttpServletRequest
@@ -62,11 +61,40 @@ class ItemService {
 //        }
 //    }
 
-    def addNewItem(String categoryName, String itemName, String desc, int qty, HttpServletRequest request){
-        def category = Category.findOrCreateWhere(categoryName: categoryName)
+//    def addNewItem(String categoryName, String itemName, String desc, int qty, HttpServletRequest request){
+//        def category = Category.findOrCreateWhere(categoryName: categoryName)
+//        category.save()
+//
+//        def item = new Item(itemName: itemName, description: desc, quantity: qty)
+//        item.category = category
+//
+//        if (item.save()) {
+//            if (!item.hasErrors()){
+//                uploadImage(item, request)
+//
+//                def transaction = new Transaction(
+//                        transactionType: 'IN',
+//                        quantity: qty,
+//                        transactionDate: new Date(),
+//                        item: item
+//                )
+//
+//                if (transaction.save()) {
+//                    return "Barang berhasil disimpan"
+//                } else {
+//                    return "Gagal menyimpan transaksi"
+//                }
+//            }
+//        } else {
+//            return "Gagal menyimpan barang"
+//        }
+//    }
+
+    def addNewItem(ReqItemCommand itemCommand, HttpServletRequest request){
+        def category = Category.findOrCreateWhere(categoryName: itemCommand.category)
         category.save()
 
-        def item = new Item(itemName: itemName, description: desc, quantity: qty)
+        def item = new Item(itemName: itemCommand.itemName, description: itemCommand.description, quantity: itemCommand.quantity)
         item.category = category
 
         if (item.save()) {
@@ -75,7 +103,7 @@ class ItemService {
 
                 def transaction = new Transaction(
                         transactionType: 'IN',
-                        quantity: qty,
+                        quantity: itemCommand.quantity,
                         transactionDate: new Date(),
                         item: item
                 )
@@ -91,31 +119,13 @@ class ItemService {
         }
     }
 
-    // get data item
-    def getAllItems(){
-        return Item.list()
-    }
-
-    // edit data item
-//    def editItem(Long id, String itemName, String description) {
-//        def item = Item.get(id)
-//        if (item) {
-//            item.itemName = itemName
-//            item.description = description
-//            item.save()
-//            return "Barang berhasil diupdate."
-//        } else {
-//            return "Barang tidak ditemukan."
-//        }
-//    }
-
-    def editItem(Long id, String itemName, String description, HttpServletRequest request) {
-        def item = Item.get(id)
+    def editItem(ReqItemCommand itemCommand, HttpServletRequest request) {
+        def item = Item.get(itemCommand.id)
         if (item) {
-            item.itemName = itemName
-            item.description = description
+            item.itemName = itemCommand.itemName
+            item.description = itemCommand.description
             item.save()
-            if (!item.hasErrors()){
+            if (!item.hasErrors()) {
                 uploadImage(item, request)
                 return "Barang berhasil diupdate."
             }
@@ -137,7 +147,7 @@ class ItemService {
     }
 
     // Uploading Image
-    def uploadImage(Item item, HttpServletRequest request){
+    def uploadImage(Item item, HttpServletRequest request) {
         if (request.getFile("itemImage") && !request.getFile("itemImage").filename.equals("")){
             String image = FileUtil.uploadItemImage(item.id as int, request.getFile("itemImage"))
             if (!image.equals("")){
@@ -153,7 +163,7 @@ class ItemService {
 
         def itemsInfo
         if (category) {
-            itemsInfo = category.items.collect { [itemName: it.itemName, description: it.description, quantity: it.quantity] }
+            itemsInfo = category.items.collect { [itemName: it.itemName, description: it.description, quantity: it.quantity, image: it.image] }
             return itemsInfo
         } else {
             return "Category not found"

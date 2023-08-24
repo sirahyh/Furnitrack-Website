@@ -8,6 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
+    <meta name="layout" content="main" />
     <title></title>
 </head>
 
@@ -27,8 +28,8 @@
                     <div class="basic-form">
                         <form>
                             <div class="form-group">
-                                <label for="categoryName">Category</label>
-                                <g:select class="form-control" name="categoryName" from="${['Benih', 'Pupuk', 'Alat']}" required="true"/><br>
+                                <label>Category</label>
+                                <g:select class="form-control" name="category" from="${['Benih', 'Pupuk', 'Alat']}" required="true"/><br>
 
                             </div>
                             <div class="form-group">
@@ -37,11 +38,11 @@
                             </div>
                             <div class="form-group">
                                 <label for="itemDescription">Description</label>
-                                <textarea class="form-control" id="itemDescription" name="itemDescription" rows="4"></textarea>
+                                <textarea class="form-control" id="itemDescription" name="description" rows="4"></textarea>
                             </div>
                             <div class="form-group">
                                 <label for="itemQuantity">Quantity</label>
-                                <input type="number" class="form-control" id="itemQuantity" name="itemQuantity" min="1" >
+                                <input type="number" class="form-control" id="itemQuantity" name="quantity" min="1" >
                             </div>
                             <div class="form-group">
                                 <label>Image</label>

@@ -33,6 +33,10 @@
 
     <div class="row clearfix">
 
+        <g:if test="${flash.message}">
+            <div class="aselole"> ${flash.message} </div>
+        </g:if>
+
         <div class="col-lg-12">
             <div class="card">
                 <div class="header">
@@ -101,7 +105,7 @@
             </div>
             <div class="modal-body-delete">
                 You will not be able to recover this field again!
-                <input type="hidden" id="hapusItemId" name="hapusItemId" value="">
+                <input type="hidden" id="hapusItemId" name="id" value="">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -169,7 +173,7 @@
                     <div class="card-body">
                         <div class="basic-form">
 
-                            <input type="hidden" id="inputItemId" name="inputItemId" value="">
+                            <input type="hidden" id="inputItemId" name="itemId" value="">
                             <div class="insert-transaction">Item Name : &nbsp;<p id="inputItemName"></p></div>
                             <div class="insert-transaction">Description : &nbsp;<p id="inputItemDescription"></p></div>
 
@@ -219,7 +223,7 @@
                     </div>
                     <div class="form-group">
                         <label for="itemDescription">Description</label>
-                        <textarea class="form-control" id="itemDescription" name="itemDescription" rows="4" required></textarea>
+                        <textarea class="form-control" id="itemDescription" name="description" rows="4" required></textarea>
 
                     </div>
                     <input type="hidden" id="itemId" name="id" value="">
