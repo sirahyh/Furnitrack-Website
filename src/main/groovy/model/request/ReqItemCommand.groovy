@@ -11,4 +11,13 @@ class ReqItemCommand {
         itemName blank: false
         description blank: true
     }
+
+    void validate() {
+        if (!itemName || itemName.trim().isEmpty()) {
+            errors.rejectValue("itemName", "reqItemCommand.itemName.blank")
+        }
+        if (!description || description.trim().isEmpty()) {
+            errors.rejectValue("itemDescription", "reqItemCommand.itemDescription.blank")
+        }
+    }
 }

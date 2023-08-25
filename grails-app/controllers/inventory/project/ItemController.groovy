@@ -3,39 +3,45 @@ package inventory.project
 
 import model.request.ReqItemCommand
 import model.response.itemListItem
+import grails.plugin.springsecurity.annotation.Secured
 
 class ItemController {
 
     def itemService
 
+    @Secured('ROLE_ADMIN')
     def create() {
     }
 
+    @Secured('ROLE_ADMIN')
     def insert(){
 
     }
 
+    @Secured(['ROLE_ADMIN', 'ROLE_USER'])
     def index() {
         List<itemListItem> items = itemService.getListItems()
         [items: items]
     }
 
+
     def addItems() {
         render(view: "create")
     }
 
+    @Secured('ROLE_ADMIN')
     def saveItems() {
-        def formData = request.JSON
-        println "isi dari formData: ${formData}"
+        def itemData = request.JSON // Mendapatkan data JSON dari permintaan
 
-        def uploadedFiles = request.getUploadedFiles("itemImages")
-        println "isi dari uploadFiles: ${uploadedFiles}"
-        println "isi form data: ${formData}"
-        formData.each {itemData ->
-            itemService.addNewItem(itemData.category, itemData.name, itemData.description, itemData.quantity as int)
-        }
+        // Mendapatkan nama file gambar dari data
+        def imageName = itemData.image
+        println "isi dari request.json : ${itemData}"
+        println "isi dari imageName : ${imageName}"
 
-        redirect(action: "index")
+        // Lakukan sesuatu dengan data (simpan ke database, dll.)
+
+        def response = [message: "Data and image processed successfully"]
+
 
     }
 
@@ -69,6 +75,8 @@ class ItemController {
 //        redirect(action: "index")
 //    }
 
+
+    @Secured('ROLE_ADMIN')
     def saveOneItem(ReqItemCommand itemCommand) {
 
         def response = itemService.addNewItem(itemCommand, request)
@@ -78,21 +86,31 @@ class ItemController {
         }
     }
 
+    @Secured('ROLE_ADMIN')
     def update(ReqItemCommand itemCommand) {
-        def result = itemService.editItem(itemCommand, request)
-        flash.message = result
+        if (itemCommand.validate()) {
+            def result = itemService.editItem(itemCommand, request)
+            flash.message = result
 
-        redirect(action: "index")
+            redirect(action: "index")
+        } else {
+            render view: 'itemForm', model: [itemCommand: itemCommand]
+        }
+
     }
 
+    @Secured('ROLE_ADMIN')
     def deleteConfirmed(ReqItemCommand itemCommand) {
-        def result = itemService.deleteItem(itemCommand.id)
-        flash.message = result
+        if (itemCommand.validate()) {
+            def result = itemService.deleteItem(itemCommand.id)
+            flash.message = result
 
-        redirect(action: "index")
+            redirect(action: "index")
+        }
     }
 
     // Search Data By Category
+    @Secured(['ROLE_ADMIN', 'ROLE_USER'])
     def search() {
         def keyword = params.keyword
 

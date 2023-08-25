@@ -14,23 +14,31 @@
     <g:layoutHead/>
 </head>
 <body>
-%{--<div id="throbber" style="display:none; min-height:120px;"></div>--}%
-%{--<div id="noty-holder"></div>--}%
-%{--<header>--}%
-%{--    <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark rounded">--}%
-%{--        <a class="navbar-brand" href="#">Grails Online Contacts Book</a>--}%
-%{--        <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse"--}%
-%{--                data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false"--}%
-%{--                aria-label="Toggle navigation">--}%
-%{--            <span class="navbar-toggler-icon"></span>--}%
-%{--        </button>--}%
-%{--        --}%%{--Member Action Menu--}%
-%{--        <ul class="navbar-nav ml-auto">--}%
-%{--            <UIHelper:memberActionMenu/>--}%
-%{--        </ul>--}%
-%{--    </nav>--}%
-%{--</header>--}%
 
+
+<nav class="navbar navbar-expand-lg navbar-dark navbar-static-top" role="navigation">
+%{--    <a class="navbar-brand logo-navbar" id="logo-navbar" href="/#"><asset:image src="logo.png" alt="Logo"/></a>--}%
+%{--    --}%
+
+    <div class="collapse navbar-collapse" aria-expanded="false" style="height: 0.8px;" id="navbarContent">
+        <ul class="nav navbar-nav ml-auto">
+            <g:pageProperty name="page.nav"/>
+            <sec:ifLoggedIn>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                        <sec:loggedInUserInfo field='fullname'/>
+                    </a>
+                    <div class="dropdown-menu navbar-dark">
+                        <g:form controller="logout">
+                            <g:submitButton class="dropdown-item navbar-dark color-light" name="Submit" value="Logout" style="color:gray" />
+                        </g:form>
+                    </div>
+                </li>
+            </sec:ifLoggedIn>
+        </ul>
+    </div>
+
+</nav>
 
 <div id="wrapper">
     <g:render template="/layouts/sidebar"/>

@@ -122,7 +122,7 @@ function removeInput() {
 
 function addInput() {
     const select = document.createElement("select");
-    const options = ["Benih", "Pupuk", "Peptisida", "Alat"];
+    const options = ['Benih', 'Pestisida', 'Pupuk', 'Alat'];
 
     options.forEach(option => {
         const optionElement = document.createElement("option");
@@ -146,12 +146,6 @@ function addInput() {
     description.className = "textarea-field";
     description.id = "itemDescription"
 
-    const quantity = document.createElement("input");
-    quantity.type = "number";
-    quantity.placeholder = "Input Item Quantity";
-    quantity.className = "input-field";
-    quantity.id = "itemQuantity"
-
     // Buat input field: Image
     const itemImageLabel = document.createElement("label");
     itemImageLabel.textContent = "Image";
@@ -163,6 +157,12 @@ function addInput() {
     itemImageFormGroup.className = "form-group";
     itemImageFormGroup.appendChild(itemImageLabel);
     itemImageFormGroup.appendChild(itemImageInput);
+
+    const quantity = document.createElement("input");
+    quantity.type = "number";
+    quantity.placeholder = "Input Item Quantity";
+    quantity.className = "input-field";
+    quantity.id = "itemQuantity"
 
     const btn = document.createElement("a");
     btn.className = "delete";
@@ -184,92 +184,175 @@ function addInput() {
 
 addBtn.addEventListener("click", addInput);
 
-function collectFormData() {
-    const formData = new FormData();
-    const flexItems = document.querySelectorAll(".flex");
+function collectFormData(inputGroup) {
+    const formData = new FormData(); // Gunakan objek FormData untuk mengumpulkan data
 
-    flexItems.forEach(item => {
-        const category = item.querySelector("#itemCategory").value;
-        const name = item.querySelector("#itemName").value;
-        const description = item.querySelector("#itemDescription").value;
-        const quantity = item.querySelector("#itemQuantity").value;
-        const imageInput = item.querySelector("#itemImage");
+    const inputs = inputGroup.querySelectorAll(".flex");
 
-        formData.append("items", JSON.stringify({
-            category: category,
-            name: name,
-            description: description,
-            quantity: quantity
-        }));
+    for (let i = 0; i < inputs.length; i++) {
+        const input = inputs[i];
+        const select = input.querySelector("#itemCategory");
+        const itemName = input.querySelector("#itemName");
+        const itemDescription = input.querySelector("#itemDescription");
+        const itemQuantity = input.querySelector("#itemQuantity");
 
-        if (imageInput.files) {
-            formData.append("itemImage", imageInput.files[0]);
-        }
-    });
+        const itemImageInput = input.querySelector("input[name='itemImage']");
+        const itemImageFile = itemImageInput.files[0];
 
-    return formData;
-}
-
-function collectFormData() {
-    const formData = [];
-    const flexItems = document.querySelectorAll(".flex");
-
-    flexItems.forEach(item => {
-        const category = item.querySelector("#itemCategory");
-        const name = item.querySelector("#itemName");
-        const description = item.querySelector("#itemDescription");
-        const quantity = item.querySelector("#itemQuantity");
-
-        formData.push({
-            category: category.value,
-            name: name.value,
-            description: description.value,
-            quantity: quantity.value
-        });
-    });
+        formData.append("category", select.value);
+        formData.append("name", itemName.value);
+        formData.append("description", itemDescription.value);
+        formData.append("quantity", itemQuantity.value);
+        formData.append("itemImage", itemImageFile);
+    }
 
     return formData;
 }
-
-document.getElementById('tombol-submit').addEventListener('click', function(event) {
-    event.preventDefault()
-    console.log('BUTTON SUBMIT PADA PAGE CREATE TERTEKAN')
-    console.log("isi dari collectData: ", collectFormData())
-})
-
-const submitButton = document.getElementById("tombol-submit");
 const endpointURL = document.getElementById('endpoint-save').getAttribute('data-endpoint-url');
-const endpointIndex = document.getElementById('redirect-index').getAttribute('data-endpoint-url');
 
-submitButton.addEventListener("click", function() {
-    const collectData = collectFormData();
-    console.log(collectData);
+function sendDataToController() {
+    const inputGroup = document.getElementById("inputGroup"); // Ganti dengan id yang sesuai
+    const formData = collectFormData(inputGroup);
 
     fetch(endpointURL, {
-        method: 'POST',
-        body: collectData
+        method: "POST",
+        body: formData, // Kirim FormData yang berisi data dan file gambar
     })
         .then(response => response.json())
         .then(data => {
-            console.log("Data sent successfully:", data);
+            // Lakukan sesuatu dengan respons dari controller jika diperlukan
         })
         .catch(error => {
             console.error("Error sending data:", error);
-        });
-});
-    // fetch(endpointURL, {
-    //     method: 'POST',
-    //     headers: {
-    //         'Content-Type': 'application/json'
-    //     },
-    //     body: JSON.stringify(jsonData)
-    // })
-    //     .then(response => response.json())
-    //     .then(data => {
-    //         console.log("Data sent successfully:", data);
-    //         window.location.href = endpointIndex;
-    //     })
-    //     .catch(error => {
-    //         console.error("Error sending data:", error);
-    //     });
+        })
+}
+
+const submitButton = document.getElementById("tombol-submit");
+submitButton.addEventListener("click", function(event) {
+    event.preventDefault()
+    console.log("button submit tertekan")
+    console.log("isi dari fungsi collectData : ", collectFormData())
+})
+
+// KODE ASLI
+// const addBtn = document.querySelector(".add");
+// const inputGroup = document.querySelector(".inp-group");
+//
+// function removeInput() {
+//     this.parentElement.remove();
+// }
+//
+// function addInput() {
+//     const select = document.createElement("select");
+//     const options = ["Chair", "Table", "Cupboard"];
+//
+//     options.forEach(option => {
+//         const optionElement = document.createElement("option");
+//         optionElement.value = option;
+//         optionElement.textContent = option;
+//         select.appendChild(optionElement);
+//     });
+//     select.className = "select-field";
+//     select.id = "itemCategory"
+//
+//     const name = document.createElement("input");
+//     name.type = "text";
+//     name.placeholder = "Input Item Name";
+//     name.className = "input-field";
+//     name.id = "itemName"
+//
+//     const description = document.createElement("textarea");
+//     description.rows = 1;
+//     description.cols = 40;
+//     description.placeholder = "Input Item Description";
+//     description.className = "textarea-field";
+//     description.id = "itemDescription"
+//
+//     // Buat input field: Image
+//     const itemImageLabel = document.createElement("label");
+//     itemImageLabel.textContent = "Image";
+//     const itemImageInput = document.createElement("input");
+//     itemImageInput.type = "file";
+//     itemImageInput.className = "form-control";
+//     itemImageInput.name = "itemImage";
+//     const itemImageFormGroup = document.createElement("div");
+//     itemImageFormGroup.className = "form-group";
+//     itemImageFormGroup.appendChild(itemImageLabel);
+//     itemImageFormGroup.appendChild(itemImageInput);
+//
+//     const quantity = document.createElement("input");
+//     quantity.type = "number";
+//     quantity.placeholder = "Input Item Quantity";
+//     quantity.className = "input-field";
+//     quantity.id = "itemQuantity"
+//
+//     const btn = document.createElement("a");
+//     btn.className = "delete";
+//     btn.innerHTML = "&times";
+//     btn.addEventListener("click", removeInput);
+//
+//     const flex = document.createElement("div");
+//     flex.className = "flex";
+//
+//     flex.appendChild(itemImageFormGroup)
+//     flex.appendChild(select);
+//     flex.appendChild(name);
+//     flex.appendChild(description);
+//     flex.appendChild(quantity);
+//     flex.appendChild(btn);
+//
+//     inputGroup.appendChild(flex);
+// }
+//
+// addBtn.addEventListener("click", addInput);
+//
+// function collectFormData() {
+//     const formData = [];
+//     const flexItems = document.querySelectorAll(".flex");
+//
+//     flexItems.forEach(item => {
+//         const category = item.querySelector("#itemCategory");
+//         const name = item.querySelector("#itemName");
+//         const description = item.querySelector("#itemDescription");
+//         const quantity = item.querySelector("#itemQuantity");
+//
+//         formData.push({
+//             category: category.value,
+//             name: name.value,
+//             description: description.value,
+//             quantity: quantity.value
+//         });
+//     });
+//
+//     return formData;
+// }
+//
+// document.getElementById('tombol-submit').addEventListener('click', function() {
+//     console.log('BUTTON SUBMIT PADA PAGE CREATE TERTEKAN')
+// })
+//
+// const submitButton = document.getElementById("tombol-submit");
+//
+// const endpointURL = document.getElementById('endpoint-save').getAttribute('data-endpoint-url');
+//
+// submitButton.addEventListener("click", function() {
+//     const jsonData = collectFormData();
+//     console.log(jsonData);
+//
+//     fetch(endpointURL, {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json'
+//         },
+//         body: JSON.stringify(jsonData)
+//     })
+//         .then(response => response.json())
+//         .then(data => {
+//             console.log("Data sent successfully:", data);
+//             // Handle the response from the server if needed
+//         })
+//         .catch(error => {
+//             console.error("Error sending data:", error);
+//             // Handle errors if any
+//         });
 // });
